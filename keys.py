@@ -35,6 +35,15 @@ def getKeys():
 	return keys
 
 def turn(keylist, turnlist):
+	for i in range(len(keylist)):		
+		if i in [0,5,12,17]:
+			keylist[i].image = pyglet.image.load("whiteA.png")
+		if i in [2,7,9,14,19,21]:
+			keylist[i].image = pyglet.image.load("whiteB.png")
+		if i in [4,11,16,23]:
+			keylist[i].image = pyglet.image.load("whiteC.png")
+		if i in [1,3,6,8,10,13,15,18,26,22]:
+			keylist[i].image = pyglet.image.load("black.png")
 	for i in turnlist:
 		if i in [0,5,12,17]:
 			keylist[i].image = pyglet.image.load("whiteAH.png")
@@ -42,7 +51,7 @@ def turn(keylist, turnlist):
 			keylist[i].image = pyglet.image.load("whiteBH.png")
 		if i in [4,11,16,23]:
 			keylist[i].image = pyglet.image.load("whiteCH.png")
-		if i in [1,3,6,8,10,13,16,18,26,22]:
+		if i in [1,3,6,8,10,13,15,18,26,22]:
 			keylist[i].image = pyglet.image.load("blackH.png")
 
 def MajorMinor():

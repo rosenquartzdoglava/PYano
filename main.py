@@ -1,6 +1,7 @@
 import pyglet
 import keys
 import buttons
+import generator
 from pyglet.window import mouse
 
 window = pyglet.window.Window(1280, 720, resizable = False)
@@ -49,10 +50,9 @@ chordButtons.append(buttons.chordButton(870, 'B', chordButtonsBatch, 0))
 #starting variables
 tonalityButtons[0].label.font_size = 40
 keyButtons[0].label.font_size = 36
-chordButtons[0].label.font_size =38
 
 #current tonality, keys, and chord
-current = [0,0,0]
+current = [0,0,-1]
 
 @window.event
 def on_draw():
@@ -77,16 +77,22 @@ def on_mouse_press(x, y, button, modifiers):
 			pass
 		elif(tonalityButtons[i].onclick(x,y) and i != current[0]):
 			current[0] = i
+			current[2] = -1
 			buttons.resetTone(tonalityButtons, i)
 			tonalityButtons[i].label.font_size = 40
+			generator.generateChordList(current,chordButtons)
+			keys.turn(keyList,[])
 
 	for i in range(len(keyButtons)):
 		if(keyButtons[i].onclick(x,y) and i == current[1]):
 			pass
 		elif (keyButtons[i].onclick(x,y) and i != current[1]):
 			current[1] = i
+			current[2] = -1
 			buttons.resetKey(keyButtons,i)
 			keyButtons[i].label.font_size = 36
+			generator.generateChordList(current,chordButtons)
+			keys.turn(keyList,[])
 
 	for i in range(len(chordButtons)):
 		if(chordButtons[i].onclick(x,y) and i == current[2]):
@@ -97,6 +103,7 @@ def on_mouse_press(x, y, button, modifiers):
 			current[2] = i
 			buttons.resetChord(chordButtons, i)
 			chordButtons[i].label.font_size = 38
+			keys.turn(keyList,generator.generateChord(current, chordButtons))
 
 @window.event
 def on_mouse_motion(x, y, button, modifiers): 
@@ -106,12 +113,14 @@ def on_mouse_motion(x, y, button, modifiers):
 				tonalityButtons[i].label.font_size = 36
 			else:
 				tonalityButtons[i].label.font_size = 32
+
 	for i in range(len(keyButtons)):
 		if i!= current[1]:
 			if keyButtons[i].hover(x,y):
 				keyButtons[i].label.font_size = 32
 			else:
 				keyButtons[i].label.font_size = 28
+
 	for i in range(len(chordButtons)):
 		if i!= current[2]:
 			if chordButtons[i].hover(x,y):
