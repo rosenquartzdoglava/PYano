@@ -33,9 +33,15 @@ def generateChord(current, chordButtons):
 		progression = [0,3,3]
 	returnList = []
 	currentChord = current[1]
+
 	for i in range(current[2]+1):
 		currentChord += formula[i]
+
+	if current[1] > 6 and currentChord > 14:
+		currentChord = currentChord % 12
+	print(current[1], currentChord)
 	for i in progression:
 		currentChord += i
 		returnList.append(currentChord)
+
 	return returnList
