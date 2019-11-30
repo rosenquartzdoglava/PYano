@@ -1,29 +1,64 @@
-import pyglet
-
-class presetButton():
-	def __init__(self, xCoord, text, buttons):
-		self.x = xCoord
-		self.y = 70
-		self.label = pyglet.text.Label(text, x = xCoord, y = 70, font_size = 36, anchor_x = 'center', anchor_y = 'center', batch = buttons)
-	def onclick(self,x,y):
-		if (self.x - 15 <= x <= self.x + 15) and(self.y - 22 <= y<= self.y +22):
-			return True
-			#is clicked
+def showPreset(presetNumber, thisLabel):	
+	file = open("presets.txt", 'r')
+	presetList = []
+	for i in file:
+		j = i.split(' ')
+		k = []
+		for element in j:
+			try:
+				k.append(int(element))
+			except:
+				pass
+		presetList.append(k)
+	presentPreset = presetList[presetNumber]
+	if presentPreset[0] == 0:
+		return ("No Current Preset")
+	else:
+		presentPreset.pop(0)
+		tonality = presentPreset.pop(0)
+		key = presentPreset.pop(0)
+		if tonality == 0:
+			tonality = 'Major'
 		else:
-			return False
-	def hover(self,x,y):
-		if (self.x - 15 <= x <= self.x + 15) and(self.y - 22 <= y<= self.y +22):
-			return True
-		else:
-			return False
-			
-class presetWindow(pyglet.window.Window):
-	def __init__(self, *args, **kwargs):
-		super().__init__(800, 640)
-		self.label = pyglet.text.Label('The following are the instructions',font_size = 32, x = 400, y = 320, anchor_x = 'center', anchor_y = 'center')
-	def on_draw(self):
-		self.label.draw()
+			tonality = 'Minor'
+		key = generator.chordOrder[key]
+		returnString = key + ' ' + tonality + ': '
+		return(returnString)
+	print(presentPreset)
+	file.close()
 
-if __name__ == '__main__':
-	window = instructionWindow(width = 800, height = 640, caption = 'Instructions', resizable = False)
-	pyglet.app.run()
+def loadPreset(presetNumber):
+	file = open("presets.txt", 'r')
+	presetList = []
+	for i in file:
+		j = i.split(' ')
+		k = []
+		for element in j:
+			k.append(int(element))
+		presetList.append(k)
+	presentPreset = presetList[presetNumber]
+	file.close()
+	return presentPreset
+
+def savePreset(presetNumber,newPreset):
+	file = open("presets.txt", 'r')
+	presetList = []
+	for i in file:
+		j = i.split(' ')
+		k = []
+		for element in j:
+			k.append(int(element))
+		presetList.append(k)
+	file.close()
+	presetList[presetNumber] = newPreset
+	file = open("presets.txt", 'w')
+	writeList = []	
+	writeString = ''
+	for i in presetList:
+		for j in range(len(i)):
+			i[j] = str(i[j])
+		writeString+= ' '.join(i)
+		writeString += '\n'
+	file.write(writeString)
+	file.close()
+
