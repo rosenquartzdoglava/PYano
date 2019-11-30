@@ -1,8 +1,11 @@
 import pyglet 
 
+numberOfChords = 0
+
 def getKeys():
 	keys = []
 	keybatch = pyglet.graphics.Batch()
+	
 	keys.append(pyglet.sprite.Sprite(pyglet.image.load("whiteA.png"), x = 181, y =210, batch = keybatch))
 	keys.append(pyglet.sprite.Sprite(pyglet.image.load("black.png"), x = 229, y = 306))
 	keys.append(pyglet.sprite.Sprite(pyglet.image.load("whiteB.png"), x = 247, y =210, batch = keybatch))
@@ -41,3 +44,20 @@ def turn(keylist, turnlist):
 			keylist[i].image = pyglet.image.load("whiteCH.png")
 		if i in [1,3,6,8,10,13,16,18,26,22]:
 			keylist[i].image = pyglet.image.load("blackH.png")
+
+def MajorMinor():
+	majmin = []									#major/minor (1st layer) labels
+	return majmin
+
+def scales():									#2nd layer labels
+	scaleList = []
+	return scaleList
+
+def showList(listOfChords):						#3rd layer labels
+	global numberOfChords
+	numberOfChords = len(listOfChords)
+	chordList = []
+
+	for i in listOfChords:
+		pass
+	return chordList
