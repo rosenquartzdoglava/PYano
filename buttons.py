@@ -1,16 +1,5 @@
 import pyglet
 
-class Button():
-	def __init__(self, xCoord, yCoord, text, batcheu):
-		self.x = xCoord
-		self.y = yCoord
-		self.label = pyglet.text.Label(text, x = xCoord, font_size = 36, y = yCoord, anchor_x = 'center', anchor_y = 'center', batch = batcheu)
-	def onclick(self, x, y):
-		if (self.x - 30 <= x <= self.x + 30) and (self.y - 30 <= y <= self.y + 30):
-			return True
-		else:
-			return False
-
 class toneButton():
 	def __init__(self, xCoord, text, buttons):
 		self.x = xCoord
@@ -66,3 +55,28 @@ def resetKey(keylist, i):
 	for x in range(len(keylist)):
 		if x != i:
 			keylist[x].label.font_size = 28
+
+class chordButton:
+	def __init__(self, xCoord, text, buttons, status):
+		self.x = xCoord
+		self.y = 555
+		self.status = status
+		self.label = pyglet.text.Label(text, x = xCoord, y = 555, font_size = 30, anchor_x = 'center', anchor_y = 'center', batch = buttons)
+
+	def onclick(self,x,y):
+		if (self.x - 25 <= x <= self.x + 25) and(self.y - 20 <= y<= self.y +20):
+			return True
+			#is clicked
+		else:
+			return False
+
+	def hover(self,x,y):
+		if (self.x - 25 <= x <= self.x + 25) and(self.y - 20 <= y<= self.y +20):
+			return True
+		else:
+			return False
+
+def resetChord(keylist, i):
+	for x in range(len(keylist)):
+		if x != i:
+			keylist[x].label.font_size = 30
