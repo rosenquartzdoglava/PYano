@@ -7,8 +7,7 @@ class toneButton():
 		self.x = xCoord
 		self.y = 605
 		self.label = pyglet.text.Label(text, x = xCoord, y = 605, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
-	def reset():
-		pass
+
 	def on(self,x,y):
 		if (self.x - 50 <= x <= self.x + 50) and(self.y - 15 <= y<= self.y +25):
 			return True
@@ -27,8 +26,7 @@ class keyButton():
 		self.y = 550
 		self.type = type # how large is 
 		self.label = pyglet.text.Label(text, x = xCoord, y = 550, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
-	def reset():
-		pass
+
 	def on(self,x,y):
 		if self.type == 0:
 			if (self.x - 15 <= x <= self.x + 15) and(self.y - 15 <= y<= self.y + 25):
@@ -66,30 +64,6 @@ def resetChord(chordlist, i):
 			chordlist[x].label.font_size = 24
 			chordlist[x].label.color = (255,255,255,255)
 
-
-
-class playButton():
-	def __init__(self, xCoord, text, buttons):
-		self.x = xCoord
-		self.y = 35
-		self.label = pyglet.text.Label(text, x = xCoord, y = 33, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
-	def on(self,x,y):
-		if (self.x - 45 <= x <= self.x + 45) and(self.y - 15 <= y<= self.y +25):
-			return True
-		else:
-			return False
-
-class changeButton():
-	def __init__(self, xCoord, text, buttons):
-		self.x = xCoord
-		self.y = 35
-		self.label = pyglet.text.Label(text, x = xCoord, y = 33, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
-	def on(self,x,y):
-		if (self.x - 85 <= x <= self.x + 85) and(self.y - 15 <= y<= self.y +25):
-			return True
-		else:
-			return False
-
 class presetButton():
 	def __init__(self, xCoord, text, buttons):
 		self.x = xCoord
@@ -118,12 +92,33 @@ class speedButton():
 		else:
 			return False
 
-
 def resetSpeed(speedlist, i):
 	for x in range(len(speedlist)):
 		if x != i:
 			speedlist[x].label.font_size = 24
 			speedlist[x].label.color = (255,255,255,255)
+
+class playButton():
+	def __init__(self, xCoord, text, buttons):
+		self.x = xCoord
+		self.y = 35
+		self.label = pyglet.text.Label(text, x = xCoord, y = 33, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
+	def on(self,x,y):
+		if (self.x - 45 <= x <= self.x + 45) and(self.y - 15 <= y<= self.y +25):
+			return True
+		else:
+			return False
+
+class changeButton():
+	def __init__(self, xCoord, text, buttons):
+		self.x = xCoord
+		self.y = 35
+		self.label = pyglet.text.Label(text, x = xCoord, y = 33, font_name = 'Montserrat', font_size = 24, anchor_x = 'center', anchor_y = 'center', batch = buttons)
+	def on(self,x,y):
+		if (self.x - 85 <= x <= self.x + 85) and(self.y - 15 <= y<= self.y +25):
+			return True
+		else:
+			return False
 
 toneButtonsBatch = pyglet.graphics.Batch()
 tonalityButtons = []

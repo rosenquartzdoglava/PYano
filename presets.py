@@ -1,32 +1,3 @@
-def showPreset(presetNumber, thisLabel):	
-	file = open("presets.txt", 'r')
-	presetList = []
-	for i in file:
-		j = i.split(' ')
-		k = []
-		for element in j:
-			try:
-				k.append(int(element))
-			except:
-				pass
-		presetList.append(k)
-	presentPreset = presetList[presetNumber]
-	if presentPreset[0] == 0:
-		return ("")
-	else:
-		presentPreset.pop(0)
-		tonality = presentPreset.pop(0)
-		key = presentPreset.pop(0)
-		if tonality == 0:
-			tonality = 'Major'
-		else:
-			tonality = 'Minor'
-		key = generator.chordOrder[key]
-		returnString = key + ' ' + tonality + ': '
-		return(returnString)
-	print(presentPreset)
-	file.close()
-
 def loadPreset(presetNumber):
 	file = open("presets.txt", 'r')
 	presetList = []
