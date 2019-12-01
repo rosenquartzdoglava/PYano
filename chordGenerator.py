@@ -2,6 +2,7 @@ chordOrder = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
 	"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
 ]
 toneOrder = ["Major", "Minor"]
+
 def generateChordList(current, chordButtons):
 	if current[0] == 0: #tonality is major
 		formula = [0,2,2,1,2,2,2]
@@ -58,7 +59,7 @@ def presetDescription(presetList):
 	for i in presetList:
 		returnList.append(chordOrder[keyChordList[i]]) # this is the
 	returnString = chordOrder[baseKey] + ' ' + tonality + ' : '
-	returnString += ' '.join(returnList)
+	returnString += ' - '.join(returnList)
 	return returnString
 
 def generatePreset(presetList):

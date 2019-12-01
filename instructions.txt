@@ -1,0 +1,9 @@
+---HOW TO USE PYano---
+Choose the tonality of the scale in the first row.
+Choose the key of the scale in the second row.
+After choosing a tonality and a key, in the third row, choose which chord in the scale to show on the on-screen piano.
+
+There are four possible presets to choose from. The first two are predefined, while the last two are empty. Each preset may be modified by the user and will be saved until it is overwritten.
+To play a preset, first choose among the four buttons labeled preset. Then, press play, and try to go along with the chords in the screen. Note that interfering with the sequence may cause glitches.
+To change a preset, choose among the four buttons labeled preset, then press change. Then, choose a tonality, key, and then the chords to show on the screen. Click save to save the preset. Pressing save without choosing chords will not save the preset. Changing the tonality and key while in changing mode will delete the current list of chords.
+l

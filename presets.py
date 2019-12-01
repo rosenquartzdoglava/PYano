@@ -12,7 +12,7 @@ def showPreset(presetNumber, thisLabel):
 		presetList.append(k)
 	presentPreset = presetList[presetNumber]
 	if presentPreset[0] == 0:
-		return ("No Current Preset")
+		return ("")
 	else:
 		presentPreset.pop(0)
 		tonality = presentPreset.pop(0)
