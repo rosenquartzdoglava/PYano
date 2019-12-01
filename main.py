@@ -38,7 +38,7 @@ tonalityButtons[0].label.font_size = 24
 tonalityButtons[0].label.color = (200, 200, 127, 255)
 keyButtons[0].label.font_size = 24
 keyButtons[0].label.color = (200, 200, 127, 255)
-current = [0, 0, -1, -1, 1, 0, 0, -1] #tonality button, key button, chord button, preset button, preset Status, preset Loaded?, is playing, current speed Button
+current = [0, 0, -1, -1, 1, 0, 0, -1]
 presetChords = []
 currentTime = 0
 currentPreset = [1,0,0]
@@ -49,13 +49,12 @@ def updateChords(dt):
 	global presetChords
 	global currentTime
 	currentTime += 1
-	if currentTime + 1 < len(presetData):
+	if currentTime + 1 < len(presetData): 
 		buttons.resetChord(chordButtons, presetData[currentTime+1])
 		chordButtons[presetData[currentTime + 1]].label.font_size = 30
 		chordButtons[presetData[currentTime + 1]].label.color = (200,200,127,255)
 	else:
 		buttons.resetChord(chordButtons, -1)
-		#change play button color
 		playButton.label.font_size = 24
 		playButton.label.color = (255,255,255,255)
 		current[6] = 0
@@ -88,6 +87,7 @@ def on_mouse_press(x, y, button, modifiers):
 					current[0] = i
 					current[2] = -1
 					buttons.resetTone(tonalityButtons, i)
+					buttons.resetChord(chordButtons, -1)
 					tonalityButtons[i].label.font_size = 24
 					tonalityButtons[i].label.color = (200, 200, 127, 255)
 					chordGenerator.generateChordList(current,chordButtons)
@@ -98,6 +98,7 @@ def on_mouse_press(x, y, button, modifiers):
 					current[1] = i
 					current[2] = -1
 					buttons.resetKey(keyButtons,i)
+					buttons.resetChord(chordButtons, -1)
 					keyButtons[i].label.font_size = 24
 					keyButtons[i].label.color =  (200, 200, 127, 255)
 					chordGenerator.generateChordList(current,chordButtons)
@@ -109,7 +110,6 @@ def on_mouse_press(x, y, button, modifiers):
 					buttons.resetChord(chordButtons, -1)
 					keys.turn(keyList,[])
 				elif(chordButtons[i].on(x,y) and i != current[2]):
-					#status is on, this buttons is clicked, but is not current
 					current[2] = i
 					buttons.resetChord(chordButtons, i)
 					chordButtons[i].label.font_size = 24
@@ -189,14 +189,13 @@ def on_mouse_press(x, y, button, modifiers):
 					speedButtons[i].label.color = (200, 200, 127, 255)
 					speedButtons[i].label.font_size = 24
 
-		elif len(currentPreset) < 12: #change has been clicked and is ongoing
+		else:
 			for i in range(len(tonalityButtons)):
-				if(tonalityButtons[i].on(x,y) and i == current[0]):
-					pass
-				elif(tonalityButtons[i].on(x,y) and i != current[0]):
+				if(tonalityButtons[i].on(x,y) and i != current[0]):
 					current[0] = i
 					current[2] = -1
 					buttons.resetTone(tonalityButtons, i)
+					buttons.resetChord(chordButtons, -1)
 					tonalityButtons[i].label.font_size = 24
 					tonalityButtons[i].label.color = (200,200,127,255)
 					chordGenerator.generateChordList(current,chordButtons)
@@ -204,13 +203,13 @@ def on_mouse_press(x, y, button, modifiers):
 					currentPreset[1] = i
 					currentPreset = currentPreset[:3]
 					currentPresetLabel.text = 'Clear Preset'
+
 			for i in range(len(keyButtons)):
-				if(keyButtons[i].on(x,y) and i == current[1]):
-					pass
-				elif (keyButtons[i].on(x,y) and i != current[1]):
+				if (keyButtons[i].on(x,y) and i != current[1]):
 					current[1] = i
 					current[2] = -1
 					buttons.resetKey(keyButtons,i)
+					buttons.resetChord(chordButtons, -1)
 					keyButtons[i].label.color = (200,200,127,255)
 					keyButtons[i].label.font_size = 24
 					chordGenerator.generateChordList(current,chordButtons)
@@ -220,30 +219,18 @@ def on_mouse_press(x, y, button, modifiers):
 					currentPresetLabel.text = "Clear Preset"
 
 			for i in range(len(chordButtons)):
-				if(chordButtons[i].on(x,y) and i != current[2]):
-					#status is on, this buttons is clicked, but is not current
-					current[2] = i
-					buttons.resetChord(chordButtons, i)
-					chordButtons[i].label.color = (200,200,127,255)
-					chordButtons[i].label.font_size = 24
-					keys.turn(keyList,chordGenerator.generateChord(current, chordButtons))
-					if len(currentPreset) == 3:
-						currentPresetLabel.text = 'Editing Preset ' +str(current[3]+1) + ': ' +chordGenerator.chordOrder[currentPreset[2]] +' ' + chordGenerator.toneOrder[currentPreset[1]]
-					currentPreset.append(i)
-					currentPresetLabel.text += ' - ' + chordButtons[i].label.text
-			if(changeButton.on(x,y)):
-				if len(currentPreset)>3:
-					presets.savePreset(current[3],currentPreset)
-				else:
-					presets.savePreset(current[3],[0])
-				current[3] = -1
-				current[4] = 1
-				buttons.resetChord(chordButtons, -1) 
-				currentPresetLabel.text = ''
-				changeButton.label.text = 'Change'
-				buttons.resetPreset(presetButtons,-1)
-				keys.turn(keyList, [])
-		else:			
+				if len(currentPreset) < 12:
+					if(chordButtons[i].on(x,y) and i != current[2]):
+						current[2] = i
+						buttons.resetChord(chordButtons, i)
+						chordButtons[i].label.color = (200,200,127,255)
+						chordButtons[i].label.font_size = 24
+						keys.turn(keyList,chordGenerator.generateChord(current, chordButtons))
+						if len(currentPreset) == 3:
+							currentPresetLabel.text = 'Editing Preset ' +str(current[3]+1) + ': ' +chordGenerator.chordOrder[currentPreset[2]] +' ' + chordGenerator.toneOrder[currentPreset[1]]
+						currentPreset.append(i)
+						currentPresetLabel.text += ' - ' + chordButtons[i].label.text
+
 			if(changeButton.on(x,y)):
 				if len(currentPreset)>3:
 					presets.savePreset(current[3],currentPreset)
@@ -276,18 +263,37 @@ def on_mouse_motion(x, y, button, modifiers):
 					keyButtons[i].label.font_size = 24
 
 		for i in range(len(chordButtons)):
-			if i!= current[2]:
+			if current[4]:
+				if i!= current[2]:
+					if chordButtons[i].on(x,y):
+						chordButtons[i].label.font_size = 30
+					else:
+						chordButtons[i].label.font_size = 24
+			elif not current[4] and len(currentPreset) < 12:
+				if i!= current[2]:
+					if chordButtons[i].on(x,y):
+						chordButtons[i].label.font_size = 30
+					else:
+						chordButtons[i].label.font_size = 24
+			else:
 				if chordButtons[i].on(x,y):
-					chordButtons[i].label.font_size = 30
+					chordButtons[i].label.color = (163,39,39,255)
 				else:
-					chordButtons[i].label.font_size = 24
+					chordButtons[i].label.color = (255,255,255,255)
+
 
 		for i in range(len(presetButtons)):
-			if i != current[3]:
+			if current[4]:
+				if i != current[3]:
+					if presetButtons[i].on(x,y):
+						presetButtons[i].label.font_size = 30
+					else:
+						presetButtons[i].label.font_size = 24
+			elif i != current[3]:
 				if presetButtons[i].on(x,y):
-					presetButtons[i].label.font_size = 30
+					presetButtons[i].label.color = (163,39,39,255)
 				else:
-					presetButtons[i].label.font_size = 24
+					presetButtons[i].label.color = (255,255,255,255)
 
 		if playButton.on(x,y) and current[5]:
 			playButton.label.font_size = 30
@@ -297,7 +303,6 @@ def on_mouse_motion(x, y, button, modifiers):
 		else:
 			playButton.label.font_size = 24
 			playButton.label.color = (255,255,255,255)
-
 
 		if changeButton.on(x,y) and not(current[3] == -1):
 			changeButton.label.font_size = 30
@@ -311,7 +316,6 @@ def on_mouse_motion(x, y, button, modifiers):
 		for i in range(len(speedButtons)):
 			if speedButtons[i].on(x,y) and current[5] and i!= current[7]:
 				speedButtons[i].label.font_size = 30
-				#the buttons should be availble; if it is not current, it becomes bigger. if it is current, nothing happens
 			elif speedButtons[i].on(x,y) and not current[5]:
 				speedButtons[i].label.font_size = 24
 				speedButtons[i].label.color = (162,39,39,255)
@@ -319,21 +323,6 @@ def on_mouse_motion(x, y, button, modifiers):
 			elif current[7] != i:
 				speedButtons[i].label.font_size = 24
 				speedButtons[i].label.color = (255,255,255,255)
-				#turn white
 
 if __name__ == "__main__":
 	pyglet.app.run()
-
-
-'''
-things to do
-make sure no empty presets
-make sure if preset is empty before changing preset is sasved as empty
-spread out ui
-make information txt file
-x1 speed = every 3 seconds
-x 1.5 speed = every 2 seconds
-x 2 speed = every 1.5 sesconds
-x 3 speed = every second
-x 4 speed = every 
-'''
